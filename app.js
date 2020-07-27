@@ -125,12 +125,27 @@ document.getElementById('startTrivia').addEventListener('click', () => {
 
 document.addEventListener('click', event => {
   if (event.target.classList.contains('answer')) {
-    console.log(event.target.dataset.answer)
+
     if (event.target.dataset.answer === questions[currentIndex].correct_answer) {
-      console.log('Correct!')
+      let resultElem = document.createElement('div')
+      resultElem.className = 'alert alert-success'
+      resultElem.textContent = 'Correct Answer'
+      document.getElementById('answers').append(resultElem)
     } else {
-      console.log('Incorrect!')
+      let resultElem = document.createElement('div')
+      resultElem.className = 'alert alert-danger'
+      resultElem.textContent = 'Incorrect Answer'
+      document.getElementById('answers').append(resultElem)
     }
 
+    currentIndex++
+
+    setTimeout(() => {
+      if (currentIndex < questions.length) {
+        newQuestion()
+      } else {
+        alert('Trivia Game Over')
+      }
+    }, 1000)
   }
 })
