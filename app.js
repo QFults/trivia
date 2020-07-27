@@ -177,14 +177,34 @@ const submitScore = submission => {
     return b.score - a.score
   })
 
-  document.getElementById('trivia').innerHTML = `
-    <table class="table">
-      <thead>
-      </thead>
-      <tbody>
-      </tbody>
-    </table
+  let tableElem = document.createElement('table')
+  tableElem.className = 'table'
+  tableElem.innerHTML = `
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">username</th>
+        <th scope="col">score</th>
+      </tr>
+    </thead>
   `
+
+  let bodyElem = document.createElement('tbody')
+
+  for (let i = 0; i < leaderboard.length; i++) {
+    let rowElem = document.createElement('tr')
+    rowElem.innerHTML = `
+      <th scope="row">${i + 1}</th>
+      <td>${leaderboard[i].username}</td>
+      <td>${leaderboard[i].score}</td>
+    `
+    bodyElem.append(rowElem)
+  }
+
+  tableElem.append(bodyElem)
+
+  document.getElementById('trivia').append(tableElem)
+
 }
 
 document.getElementById('startTrivia').addEventListener('click', () => {
