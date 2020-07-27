@@ -101,6 +101,8 @@ let questions = [
 
 let currentIndex = 0
 let score = 0
+let seconds = 100
+let timer
 
 const newQuestion = () => {
 
@@ -208,6 +210,17 @@ const submitScore = submission => {
 }
 
 document.getElementById('startTrivia').addEventListener('click', () => {
+
+  timer = setInterval(() => {
+    seconds--
+    document.getElementById('time').textContent = seconds
+
+    if (seconds <= 0) {
+      clearInterval(timer)
+      endGame()
+    }
+  }, 1000)
+
   newQuestion()
 })
 
@@ -223,4 +236,4 @@ document.addEventListener('click', event => {
   }
 })
 
-endGame()
+// endGame()
