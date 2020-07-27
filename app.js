@@ -100,6 +100,7 @@ let questions = [
 ]
 
 let currentIndex = 0
+let score = 0
 
 const newQuestion = () => {
 
@@ -127,6 +128,8 @@ document.addEventListener('click', event => {
   if (event.target.classList.contains('answer')) {
 
     if (event.target.dataset.answer === questions[currentIndex].correct_answer) {
+      score++
+      document.getElementById('score').textContent = score
       let resultElem = document.createElement('div')
       resultElem.className = 'alert alert-success'
       resultElem.textContent = 'Correct Answer'
