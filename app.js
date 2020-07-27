@@ -164,6 +164,29 @@ const endGame = () => {
 
 }
 
+const submitScore = submission => {
+  console.log(submission)
+  
+  let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || []
+
+  leaderboard.push(submission)
+
+  localStorage.setItem('leaderboard', JSON.stringify(leaderboard))
+
+  leaderboard.sort((a, b) => {
+    return b.score - a.score
+  })
+
+  document.getElementById('trivia').innerHTML = `
+    <table class="table">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table
+  `
+}
+
 document.getElementById('startTrivia').addEventListener('click', () => {
   newQuestion()
 })
@@ -172,6 +195,12 @@ document.addEventListener('click', event => {
   if (event.target.classList.contains('answer')) {
     getAnswer(event.target.dataset.answer)
   } else if (event.target.id === 'submitScore') {
-    
+    event.preventDefault()
+    submitScore({
+      username: document.getElementById('username').value,
+      score: score
+    })
   }
 })
+
+endGame()
