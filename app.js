@@ -120,35 +120,58 @@ const newQuestion = () => {
   }
 }
 
+const getAnswer = answer => {
+
+  if (answer === questions[currentIndex].correct_answer) {
+    score++
+    document.getElementById('score').textContent = score
+    let resultElem = document.createElement('div')
+    resultElem.className = 'alert alert-success'
+    resultElem.textContent = 'Correct Answer'
+    document.getElementById('answers').append(resultElem)
+  } else {
+    let resultElem = document.createElement('div')
+    resultElem.className = 'alert alert-danger'
+    resultElem.textContent = 'Incorrect Answer'
+    document.getElementById('answers').append(resultElem)
+  }
+
+  currentIndex++
+
+  setTimeout(() => {
+    if (currentIndex < questions.length) {
+      newQuestion()
+    } else {
+      endGame()
+    }
+  }, 1000)
+}
+
+const endGame = () => {
+  document.getElementById('trivia').innerHTML = `
+    <h1 class="display-2">Game Over!</h1>
+  <p class="display-4">Your final score is: ${score}</p>
+  <hr class="my-4">
+  <p>Please enter a username for the leaderboard</p>
+  <form>
+    <div class="form-group">
+      <label for="username">username</label>
+      <input type="text" class="form-control" id="username">
+      <button id="submitScore" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+  `
+
+}
+
 document.getElementById('startTrivia').addEventListener('click', () => {
   newQuestion()
 })
 
 document.addEventListener('click', event => {
   if (event.target.classList.contains('answer')) {
-
-    if (event.target.dataset.answer === questions[currentIndex].correct_answer) {
-      score++
-      document.getElementById('score').textContent = score
-      let resultElem = document.createElement('div')
-      resultElem.className = 'alert alert-success'
-      resultElem.textContent = 'Correct Answer'
-      document.getElementById('answers').append(resultElem)
-    } else {
-      let resultElem = document.createElement('div')
-      resultElem.className = 'alert alert-danger'
-      resultElem.textContent = 'Incorrect Answer'
-      document.getElementById('answers').append(resultElem)
-    }
-
-    currentIndex++
-
-    setTimeout(() => {
-      if (currentIndex < questions.length) {
-        newQuestion()
-      } else {
-        alert('Trivia Game Over')
-      }
-    }, 1000)
+    getAnswer(event.target.dataset.answer)
+  } else if (event.target.id === 'submitScore') {
+    
   }
 })
